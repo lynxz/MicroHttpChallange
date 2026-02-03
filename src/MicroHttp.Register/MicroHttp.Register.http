@@ -1,0 +1,6 @@
+@MicroHttp.Register_HostAddress = http://localhost:5025
+
+GET {{MicroHttp.Register_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
