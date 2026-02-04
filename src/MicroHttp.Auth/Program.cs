@@ -38,6 +38,7 @@ builder.Services.AddAuthentication(options =>
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
 });
+builder.Services.AddAuthorization();
 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IAuthService, AuthService>();

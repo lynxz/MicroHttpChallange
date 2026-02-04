@@ -48,6 +48,27 @@ services:
     networks:
       - keycloak_network
 
+  auth:
+    build: ./src/MicroHttp.Auth/
+    environment:
+      Keycloak_Baseurl: http://keycloak:8888/
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - 7082:8080
+    networks:
+      - keycloak_network
+    depends_on:
+      - keycloak
+
+  register:
+    build: ./src/MicroHttp.Register/
+    ports:
+      - 7254:8080
+    networks:
+      - keycloak_network
+    depends_on:
+      - keycloak
+
 volumes:
   postgres_data:
   pgadmin_data:  
