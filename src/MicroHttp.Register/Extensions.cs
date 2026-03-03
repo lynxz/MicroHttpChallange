@@ -11,11 +11,9 @@ internal static class Extensions
         var realm = keycloakSettings.GetValue<string>("Realm") ?? throw new ArgumentNullException("Realm is not configured");
         var clientId = keycloakSettings.GetValue<string>("ClientId") ?? throw new ArgumentNullException("ClientId is not configured");
         var clientSecret = keycloakSettings.GetValue<string>("ClientSecret") ?? throw new ArgumentNullException("ClientSecret is not configured");
-        var userId = keycloakSettings.GetValue<string>("UserId") ?? throw new ArgumentNullException("UserId is not configured");
-        var password = keycloakSettings.GetValue<string>("Password") ?? throw new ArgumentNullException("Password is not configured");
         var tokenEndpoint = $"{baseUrl}/realms/{realm}/protocol/openid-connect/token";
         
-        var adminToken = await GetAdminTokenAsync(tokenEndpoint, clientId, clientSecret, userId, password);
+        var adminToken = await GetAdminTokenAsync(tokenEndpoint, clientId, clientSecret);
         if (!string.IsNullOrEmpty(adminToken))
         {
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {adminToken}");
@@ -24,16 +22,14 @@ internal static class Extensions
         return client;
     }
 
-    private static async Task<string> GetAdminTokenAsync(string tokenEndpoint, string clientId, string clientSecret, string userId, string password)
+    private static async Task<string> GetAdminTokenAsync(string tokenEndpoint, string clientId, string clientSecret)
     {
         using var httpClient = new HttpClient();
         var parameters = new Dictionary<string, string>
         {
-            { "grant_type", "password" },
+            { "grant_type", "client_credentials" },
             { "client_id", clientId },
-            { "client_secret", clientSecret },
-            { "username", userId },
-            { "password", password }
+            { "client_secret", clientSecret }
         };
         var content = new FormUrlEncodedContent(parameters);
         var response = await httpClient.PostAsync(tokenEndpoint, content);

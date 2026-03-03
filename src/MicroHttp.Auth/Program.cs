@@ -16,7 +16,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = $"{builder.Configuration["Keycloak:BaseUrl"]}/realms/{builder.Configuration["Keycloak:Realm"]}",
+        ValidIssuer = $"{builder.Configuration["KeycloakSettings:BaseUrl"]}/realms/{builder.Configuration["KeycloakSettings:Realm"]}",
 
         ValidateAudience = true,
         ValidAudience = "account",

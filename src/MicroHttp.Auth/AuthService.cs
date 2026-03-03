@@ -52,6 +52,8 @@ public class AuthService(HttpClient httpClient, IConfiguration configuration) : 
         var requestContent = new FormUrlEncodedContent(requestBody);
         var response = await httpClient.PostAsync(tokenEndpoint, requestContent);
 
+        var blah = await response.Content.ReadAsStringAsync();
+
         if (response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
