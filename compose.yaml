@@ -48,6 +48,19 @@ services:
     networks:
       - keycloak_network
 
+  azurite:
+    container_name: azurite
+    image: mcr.microsoft.com/azure-storage/azurite:latest 
+    restart: unless-stopped
+    volumes:
+      - azurite-data:/data
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+    networks:
+      - keycloak_network
+
   auth:
     build: ./src/MicroHttp.Auth/
     environment:
@@ -71,7 +84,8 @@ services:
 
 volumes:
   postgres_data:
-  pgadmin_data:  
+  pgadmin_data: 
+  azurite-data: 
     
 networks:
   keycloak_network:

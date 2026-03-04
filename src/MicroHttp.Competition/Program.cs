@@ -1,3 +1,8 @@
+using MicroHttp.Competition;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,7 +17,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = $"{builder.Configuration["Keycloak:BaseUrl"]}/realms/{builder.Configuration["Keycloak:Realm"]}",
+        ValidIssuer = $"{builder.Configuration["KeycloakSettings:BaseUrl"]}/realms/{builder.Configuration["KeycloakSettings:Realm"]}",
 
         ValidateAudience = true,
         ValidAudience = "account",
@@ -36,6 +41,8 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<IProblemService, ProblemService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,16 +55,17 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-var summaries = new[]
+app.MapGet("/problem", (IProblemService problemService, HttpContext context) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var userEmail = context.User.FindFirst(ClaimTypes.Email)?.Value;
+    if (userEmail == null)
+    {
+        return Results.Unauthorized();
+    }
 
-app.MapGet("/weatherforecast", () =>
-{
-    
-    return OkResult();
-});
+    var problem = problemService.GetProblem(userEmail);
+    return Results.File(problem, "application/octet-stream");
+}).RequireAuthorization();
 
 app.Run();
 
