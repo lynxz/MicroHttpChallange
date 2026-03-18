@@ -17,6 +17,11 @@ public class AuthService(HttpClient httpClient, IConfiguration configuration) : 
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
         var response = await httpClient.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Token validation failed: {errorContent}");
+        }
         return response.IsSuccessStatusCode;
     }
 
@@ -26,7 +31,8 @@ public class AuthService(HttpClient httpClient, IConfiguration configuration) : 
             {
                 { "grant_type", "password" },
                 { "username", username },
-                { "password", password }
+                { "password", password },
+                { "scope", "openid profile email" }
             });
 
     public Task<TokenResponse> RefreshTokenAsync(string refreshToken) =>
