@@ -47,7 +47,48 @@ public class HttpRequestHandler : IHttpRequestHandler
             {
                 var headerLength = headerEnd + HeaderTerminator.Length;
                 var text = Encoding.UTF8.GetString(buffer, 0, headerLength);
-                return ParseHttpRequest(text);
+                var request = ParseHttpRequest(text);
+                if (request is null)
+                    return null;
+
+                if (!request.Headers.TryGetValue("Content-Length", out var contentLengthStr)
+                    || !int.TryParse(contentLengthStr, out var contentLength)
+                    || contentLength <= 0)
+                {
+                    return request;
+                }
+
+                var body = new byte[contentLength];
+                var bodyAlreadyRead = totalRead - headerLength;
+                if (bodyAlreadyRead > 0)
+                {
+                    Buffer.BlockCopy(buffer, headerLength, body, 0, Math.Min(bodyAlreadyRead, contentLength));
+                }
+
+                var bodyOffset = bodyAlreadyRead;
+                while (bodyOffset < contentLength)
+                {
+                    int bodyBytesRead;
+                    try
+                    {
+                        bodyBytesRead = await stream.ReadAsync(body.AsMemory(bodyOffset, contentLength - bodyOffset), cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return null;
+                    }
+                    catch (IOException)
+                    {
+                        return null;
+                    }
+
+                    if (bodyBytesRead == 0)
+                        return null;
+
+                    bodyOffset += bodyBytesRead;
+                }
+
+                return request with { Body = body };
             }
         }
 
@@ -106,6 +147,6 @@ public class HttpRequestHandler : IHttpRequestHandler
             headers[name] = value;
         }
 
-        return new HttpRequest(method, path, version, headers);
+        return new HttpRequest(method, path, version, headers, Array.Empty<byte>());
     }
 }

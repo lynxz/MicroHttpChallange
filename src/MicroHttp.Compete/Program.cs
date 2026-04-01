@@ -13,9 +13,11 @@ builder.Services.AddHttpClient<ITokenService, TokenService>(client =>
 
 var storageConnectionString = builder.Configuration["AzureStorage:ConnectionString"] ?? "UseDevelopmentStorage=true";
 var tableName = builder.Configuration["AzureStorage:TableName"] ?? "userdata";
+var problemBlobTableName = builder.Configuration["AzureStorage:ProblemBlobTableName"] ?? "problemblob";
 var blobContainerName = builder.Configuration["AzureStorage:BlobContainerName"] ?? "userdata";
 
 builder.Services.AddSingleton(new TableClient(storageConnectionString, tableName));
+builder.Services.AddKeyedSingleton("problemBlob", new TableClient(storageConnectionString, problemBlobTableName));
 builder.Services.AddSingleton(new BlobContainerClient(storageConnectionString, blobContainerName));
 builder.Services.AddSingleton<IDataService, DataService>();
 

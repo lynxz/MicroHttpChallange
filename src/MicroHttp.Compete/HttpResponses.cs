@@ -31,4 +31,17 @@ public static class HttpResponses
             ["Connection"] = "close"
         },
         Array.Empty<byte>());
+
+    public static HttpResponse Ok(string version, string message)
+    {
+        var body = System.Text.Encoding.UTF8.GetBytes(message);
+        return new(version, 200, "OK",
+            new Dictionary<string, string>
+            {
+                ["Content-Type"] = "text/plain",
+                ["Content-Length"] = body.Length.ToString(),
+                ["Connection"] = "close"
+            },
+            body);
+    }
 }
