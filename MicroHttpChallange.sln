@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroHttp.Auth", "src\Micro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroHttp.Register", "src\MicroHttp.Register\MicroHttp.Register.csproj", "{4D9240CE-D8DF-44BD-8538-21D0DDD33075}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroHttp.Compete", "src\MicroHttp.Compete\MicroHttp.Compete.csproj", "{6B063656-7582-4913-879F-CA707CF4F7B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,18 @@ Global
 		{4D9240CE-D8DF-44BD-8538-21D0DDD33075}.Release|x64.Build.0 = Release|Any CPU
 		{4D9240CE-D8DF-44BD-8538-21D0DDD33075}.Release|x86.ActiveCfg = Release|Any CPU
 		{4D9240CE-D8DF-44BD-8538-21D0DDD33075}.Release|x86.Build.0 = Release|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Debug|x64.Build.0 = Debug|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Release|x64.ActiveCfg = Release|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Release|x64.Build.0 = Release|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B063656-7582-4913-879F-CA707CF4F7B4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{06B2C8BA-92BC-4271-8602-E089A28A5F7D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{4D9240CE-D8DF-44BD-8538-21D0DDD33075} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{6B063656-7582-4913-879F-CA707CF4F7B4} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

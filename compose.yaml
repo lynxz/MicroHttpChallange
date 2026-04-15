@@ -82,6 +82,15 @@ services:
     depends_on:
       - keycloak
 
+  compete:
+    build: ./src/MicroHttp.Compete/
+    ports:
+      - 7222:7222
+    networks:
+      - keycloak_network
+    depends_on:
+      - keycloak
+
 volumes:
   postgres_data:
   pgadmin_data: 
